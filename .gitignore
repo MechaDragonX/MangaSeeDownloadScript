@@ -1,0 +1,6 @@
+# Other scripts made/stolen for testing
+simpleDownload.sh
+validateURL.sh
+
+# Any downloaded images
+*.png
