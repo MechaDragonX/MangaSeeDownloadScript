@@ -17,7 +17,7 @@ _page_count_len=$(expr length "$3")
 
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 _chapter_num_zeroes=""
-case $chapterNumLen in
+case $_chapter_num_len in
     1)
         _chapter_num_zeroes="000"
         ;;
