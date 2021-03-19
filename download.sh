@@ -93,6 +93,30 @@ _calc_filename_zeroes() {
 # Exit if any functions returns a non-zero value
 set -e
 
+if (($# == 0)); then
+    # Display help information
+    printf "Usage: <Script Filename> <Series Title> <Chapter Number> <Page Count> [-d] <External Directory>\n"
+    printf "\n"
+    printf "\"Series Title\": The title of the series you wish to download. Must be in romanized form. This does not\n"
+    printf "\tmean Romaji, as words that contain characters that refelect long tones are often dropped. Please see\n"
+    printf "\tthe MangaSee website for the titles used.\n"
+    printf "\"Chapter Number\": The number of the chapter you wish to download.\n"
+    printf "\"Page Count\": The number of pages you wish to downoad.\n"
+    printf "\"-d\": The external directory switch. You must use this switch if you wish to download to directory\n"
+    printf "\tother than where you are executing the script from.\n"
+    printf "\"External Directory\": The path to the directory you wish to download to. If you do not use the switch,\n"
+    printf "\tall files are downloaded to the directory you are executing the script from.\n"
+    exit 0
+elif (($# < 3 && $# != 0)); then
+    echo "You need at least 3 arguments!"
+    echo "Please execute the script with no arguments for help."
+    exit 1
+elif (($# > 5)); then
+    echo "You only need at least 3 arguments! 5 are are required for optional functionality."
+    echo "Please execute the script with no arguments for help."
+    exit 1
+fi
+
 # Convert series name to kebab case (ex. "Grand Blue" to "Grand-Blue")
 _series_name_kebab="${1// /-}"
 # Calculate number of digits in chapter number
@@ -131,3 +155,5 @@ for ((i=1; i<=$3; i++)); do
         wget -O $_filename_zeroes$i$_file_extension "$_base_url-$_page_num_zeroes$i$_file_extension"
     fi
 done
+
+exit 0
