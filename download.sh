@@ -50,14 +50,11 @@ _gen_base_url() {
 # Determine the correct number of zeroes to prefix the chapter number (ex. "51" means "0" in order to have "051")
 # $1 = Length of Page Number
 _calc_page_num_zeroes() {
-    case $1 in
-        1)
-            echo "00"
-            ;;
-        2)
-            echo "0"
-            ;;
-    esac
+    if (($1 == 1)); then
+        echo "00"
+    elif (($1 == 2)); then
+        echo "0"
+    fi
 }
 
 ###
