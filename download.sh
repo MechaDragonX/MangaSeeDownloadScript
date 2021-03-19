@@ -47,12 +47,19 @@ _gen_base_url() {
         return 1
     fi
 }
-# Determine the correct number of zeroes to prefix the chapter number (ex. "51" means "0" in order to have "051")
+# Determine the correct number of zeroes to prefix the page number (ex. "51" means "0" in order to have "051")
 # $1 = Length of Page Number
 _calc_page_num_zeroes() {
     if (($1 == 1)); then
         echo "00"
     elif (($1 == 2)); then
+        echo "0"
+    fi
+}
+# Determine the correct number of zeroes to prefix the filename (ex. "1" means "0" in order to have "01")
+# $1 = Length of Page Number
+_calc_filename_zeroes() {
+    if (($1 == 1)); then
         echo "0"
     fi
 }
@@ -63,6 +70,7 @@ _calc_page_num_zeroes() {
 # $1 = Series Name
 # $2 = Chapter Number
 # $3 = Number of Pages
+# $4 = Path to download (optional; if not passed, will download to current directory)
 
 # Exit if any functions returns a non-zero value
 set -e
@@ -71,8 +79,6 @@ set -e
 _series_name_kebab="${1// /-}"
 # Calculate number of digits in chapter number
 _chapter_num_len=$(expr length "$2")
-# Calculate number of digits in page count
-# _page_count_len=$(expr length "$3")
 
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 _chapter_num_zeroes=$(_calc_chapter_num_zeroes $_chapter_num_len)
