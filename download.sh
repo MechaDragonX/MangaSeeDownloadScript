@@ -13,7 +13,6 @@ _calc_chapter_num_zeroes() {
             ;;
     esac
 }
-
 # Test each server using the passed chapter and the first page
 # Example URL: "https://scans-ongoing-1.lastation.us/manga/Grand-Blue/0066-001.png"
 # $1 = Series Name in Kebab Case
@@ -48,6 +47,18 @@ _gen_base_url() {
         return 1
     fi
 }
+# Determine the correct number of zeroes to prefix the chapter number (ex. "51" means "0" in order to have "051")
+# $1 = Length of Page Number
+_calc_page_num_zeroes() {
+    case $1 in
+        1)
+            echo "00"
+            ;;
+        2)
+            echo "0"
+            ;;
+    esac
+}
 
 ###
 # Main Body
@@ -64,7 +75,7 @@ _series_name_kebab="${1// /-}"
 # Calculate number of digits in chapter number
 _chapter_num_len=$(expr length "$2")
 # Calculate number of digits in page count
-_page_count_len=$(expr length "$3")
+# _page_count_len=$(expr length "$3")
 
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 _chapter_num_zeroes=$(_calc_chapter_num_zeroes $_chapter_num_len)
@@ -72,16 +83,10 @@ _chapter_num_zeroes=$(_calc_chapter_num_zeroes $_chapter_num_len)
 # Test each server using the passed chapter and the first page
 # Example URL: "https://scans-ongoing-1.lastation.us/manga/Grand-Blue/0066-001.png"
 _base_url=$(_gen_base_url $_series_name_kebab $_chapter_num_zeroes $2)
+_url_end=".png"
 
-# Determine the correct number of zeroes to prefix the chapter number (ex. "51" means "0" in order to have "051")
-# _page_num_zeroes=""
-# case $_chapter_num_len in
-#     1)
-#         _page_num_zeroes="00"
-#         ;;
-#     2)
-#         _page_num_zeroes="0"
-#         ;;
-# esac
-
-echo "$_base_url-001.png"
+_page_num_zeroes=""
+for ((i=1; i<=$3; i++)); do
+    _page_num_zeroes=$(_calc_page_num_zeroes $(expr length "$i"))
+    echo "$_base_url-$_page_num_zeroes$i$_url_end"
+done
