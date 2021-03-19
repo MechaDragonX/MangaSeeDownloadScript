@@ -29,15 +29,23 @@ _gen_base_url() {
     # Test official ongoing for 200
     if [[ `wget -S --spider "$_official_ongoing$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
         echo "$_official_ongoing$1/$2$3"
+        return 0
     # Test scan ongoing for 200
     elif [[ `wget -S --spider "$_scan_ongoing$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
         echo "$_scan_ongoing$1/$2$3"
+        return 0
     # Test official complete for 200
     elif [[ `wget -S --spider "$_official_complete$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
         echo "$_official_complete$1/$2$3"
+        return 0
     # Test scan complete for 200
     elif [[ `wget -S --spider "$_scan_complete$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
         echo "$_scan_complete$1/$2$3"
+        return 0
+    else
+        echo "That series isn't on MangaSee!" 1>&2
+        echo "Make sure to pass the romanized Japanese name (but not Romaji) and not the official English title! Check MangaSee for what names are used." 1>&2
+        return 1
     fi
 }
 
@@ -47,6 +55,9 @@ _gen_base_url() {
 # $1 = Series Name
 # $2 = Chapter Number
 # $3 = Number of Pages
+
+# Exit if any functions returns a non-zero value
+set -e
 
 # Convert series name to kebab case (ex. "Grand Blue" to "Grand-Blue")
 _series_name_kebab="${1// /-}"
