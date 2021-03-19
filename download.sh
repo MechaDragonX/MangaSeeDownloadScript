@@ -80,10 +80,16 @@ _chapter_num_zeroes=$(_calc_chapter_num_zeroes $_chapter_num_len)
 # Test each server using the passed chapter and the first page
 # Example URL: "https://scans-ongoing-1.lastation.us/manga/Grand-Blue/0066-001.png"
 _base_url=$(_gen_base_url $_series_name_kebab $_chapter_num_zeroes $2)
-_url_end=".png"
+_file_extension=".png"
 
+# Create URL's using the proper number of leading zeroes
 _page_num_zeroes=""
+_filename_zeroes=""
 for ((i=1; i<=$3; i++)); do
+    # Generate leading zeroes for page number
     _page_num_zeroes=$(_calc_page_num_zeroes $(expr length "$i"))
-    echo "$_base_url-$_page_num_zeroes$i$_url_end"
+    # Generate leading zeroes for filename
+    _filename_zeroes=$(_calc_filename_zeroes $(expr length "$i"))
+    # Download all pages
+    wget -O $_filename_zeroes$i$_file_extension $_base_url-$_page_num_zeroes$i$_file_extension
 done
