@@ -47,6 +47,23 @@ _gen_base_url() {
         return 1
     fi
 }
+# Check to see if a external directory switch is present and then create an external directory if it doesn't already exist
+# $1 = Switch
+# $2 = Path to External Directory
+_create_external_dir() {
+    # Check to see if a switch is present
+    if [[ "$1" != "" ]]; then
+        if [[ "$2" != "" ]]; then
+            # Only create the directory if it doesn't arleady exist
+            mkdir -p $2
+            return 0
+        else
+            echo "No external directory path has been passed!" 1>&2
+            return 1
+        fi
+    fi
+    return 0
+}
 # Determine the correct number of zeroes to prefix the page number (ex. "51" means "0" in order to have "051")
 # $1 = Length of Page Number
 _calc_page_num_zeroes() {
@@ -70,7 +87,8 @@ _calc_filename_zeroes() {
 # $1 = Series Name
 # $2 = Chapter Number
 # $3 = Number of Pages
-# $4 = Path to download (optional; if not passed, will download to current directory)
+# $4 = "-d"; Download to External Directory Switch
+# $5 = Path to download (optional; if not passed, will download to current directory)
 
 # Exit if any functions returns a non-zero value
 set -e
@@ -88,6 +106,9 @@ _chapter_num_zeroes=$(_calc_chapter_num_zeroes $_chapter_num_len)
 _base_url=$(_gen_base_url $_series_name_kebab $_chapter_num_zeroes $2)
 _file_extension=".png"
 
+# Check to see if a external directory switch is present and then create an external directory if it doesn't already exist
+$(_create_external_dir $4 $5)
+
 # Create URL's using the proper number of leading zeroes
 _page_num_zeroes=""
 _filename_zeroes=""
@@ -96,6 +117,17 @@ for ((i=1; i<=$3; i++)); do
     _page_num_zeroes=$(_calc_page_num_zeroes $(expr length "$i"))
     # Generate leading zeroes for filename
     _filename_zeroes=$(_calc_filename_zeroes $(expr length "$i"))
+
     # Download all pages
-    wget -O $_filename_zeroes$i$_file_extension $_base_url-$_page_num_zeroes$i$_file_extension
+    # Check to see if a external directory switch is present
+    if [[ "$4" != "" ]]; then
+        # Check to see if the passed directory contains a slash
+        if [[ ${5: -1} = "/" ]]; then
+            wget -O $5$_filename_zeroes$i$_file_extension "$_base_url-$_page_num_zeroes$i$_file_extension"
+        else
+            wget -O "$5/$_filename_zeroes$i$_file_extension" "$_base_url-$_page_num_zeroes$i$_file_extension"
+        fi
+    else
+        wget -O $_filename_zeroes$i$_file_extension "$_base_url-$_page_num_zeroes$i$_file_extension"
+    fi
 done
