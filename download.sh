@@ -42,8 +42,10 @@ _gen_base_url() {
         echo "$_scan_complete$1/$2$3"
         return 0
     else
-        echo "That series isn't on MangaSee!" 1>&2
-        echo "Make sure to pass the romanized Japanese name (but not Romaji) and not the official English title! Check MangaSee for what names are used." 1>&2
+        echo "Something went wrong! Please execute the shell on the own to see the help." 1>&2
+        printf "Possible Errors: - The series name isn't written in romanized Japanese\n" 1>&2
+        printf "\t\t - The chapter number is not a number\n" 1>&2
+        printf "\t\t - The page count is not a number\n" 1>&2
         return 1
     fi
 }
