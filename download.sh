@@ -26,19 +26,19 @@ _gen_base_url() {
     _scan_complete="https://scans-complete.hydaelyn.us/manga/"
 
     # Test official ongoing for 200
-    if [[ `wget -S --spider "$_official_ongoing$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+    if [[ $(wget -S --spider "$_official_ongoing$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK') ]]; then
         echo "$_official_ongoing$1/$2$3"
         return 0
     # Test scan ongoing for 200
-    elif [[ `wget -S --spider "$_scan_ongoing$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+    elif [[ $(wget -S --spider "$_scan_ongoing$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK') ]]; then
         echo "$_scan_ongoing$1/$2$3"
         return 0
     # Test official complete for 200
-    elif [[ `wget -S --spider "$_official_complete$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+    elif [[ $(wget -S --spider "$_official_complete$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK') ]]; then
         echo "$_official_complete$1/$2$3"
         return 0
     # Test scan complete for 200
-    elif [[ `wget -S --spider "$_scan_complete$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+    elif [[ $(wget -S --spider "$_scan_complete$1/$2$3-001.png" 2>&1 | grep 'HTTP/1.1 200 OK') ]]; then
         echo "$_scan_complete$1/$2$3"
         return 0
     else
