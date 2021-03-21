@@ -1,3 +1,17 @@
+# Display help information
+_print_help() {
+    printf "Usage: <Script Filename> <Series Title> <Chapter Number> <Page Count> [-d] <External Directory>\n"
+    printf "\n"
+    printf "\"Series Title\": The title of the series you wish to download. Must be in romanized form. This does not\n"
+    printf "\tmean Romaji, as characters that refelect long tones are often dropped. Please see\n"
+    printf "\tthe MangaSee website for the titles used.\n"
+    printf "\"Chapter Number\": The number of the chapter you wish to download.\n"
+    printf "\"Page Count\": The number of pages you wish to downoad.\n"
+    printf "\"-d\": The external directory switch. You must use this switch if you wish to download to directory\n"
+    printf "\tother than where you are executing the script from.\n"
+    printf "\"External Directory\": The path to the directory you wish to download to. If you do not use the switch,\n"
+    printf "\tall files are downloaded to the directory you are executing the script from.\n"
+}
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 # $1 = Length of Chapter Number
 _calc_chapter_num_zeroes() {
@@ -97,17 +111,7 @@ set -e
 
 if (($# == 0)); then
     # Display help information
-    printf "Usage: <Script Filename> <Series Title> <Chapter Number> <Page Count> [-d] <External Directory>\n"
-    printf "\n"
-    printf "\"Series Title\": The title of the series you wish to download. Must be in romanized form. This does not\n"
-    printf "\tmean Romaji, as words that contain characters that refelect long tones are often dropped. Please see\n"
-    printf "\tthe MangaSee website for the titles used.\n"
-    printf "\"Chapter Number\": The number of the chapter you wish to download.\n"
-    printf "\"Page Count\": The number of pages you wish to downoad.\n"
-    printf "\"-d\": The external directory switch. You must use this switch if you wish to download to directory\n"
-    printf "\tother than where you are executing the script from.\n"
-    printf "\"External Directory\": The path to the directory you wish to download to. If you do not use the switch,\n"
-    printf "\tall files are downloaded to the directory you are executing the script from.\n"
+    _print_help
     exit 0
 elif (($# < 3 && $# != 0)); then
     echo "You need at least 3 arguments!"
