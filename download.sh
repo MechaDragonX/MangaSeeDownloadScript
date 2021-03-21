@@ -67,17 +67,18 @@ _gen_base_url() {
 # $1 = Switch
 # $2 = Path to External Directory
 _create_external_dir() {
-    # Check to see if a switch is present
-    if [[ "$1" != "" ]]; then
-        if [[ "$2" != "" ]]; then
-            # Only create the directory if it doesn't arleady exist
-            mkdir -p $2
-            return 0
-        else
-            echo "No external directory path has been passed!" 1>&2
-            return 1
-        fi
+    if [[ "$1" != "-d" ]]; then
+        echo "If you wish to download to an external directory, please pass the proper switch, \"-d\"! Please see help for further details." 1>&2
+        return 1;
     fi
+
+    if [[ "$2" == "" ]]; then
+        echo "No external directory path has been passed! Please see help for further details." 1>&2
+        return 1
+    fi
+
+    # Only create the directory if it doesn't arleady exist
+    mkdir -p $2
     return 0
 }
 # Determine the correct number of zeroes to prefix the page number (ex. "51" means "0" in order to have "051")
