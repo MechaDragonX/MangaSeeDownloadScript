@@ -3,14 +3,14 @@ _print_help() {
     printf "Usage: <Script Filename> <Series Title> <Chapter Number> <Page Count> [-d] <External Directory>\n"
     printf "\n"
     printf "\"Series Title\": The title of the series you wish to download. Must be in romanized form. This does not\n"
-    printf "\tmean Romaji, as characters that refelect long tones are often dropped. Please see\n"
-    printf "\tthe MangaSee website for the titles used.\n"
+    printf "\t\tmean Romaji, as characters that refelect long tones are often dropped. Please see\n"
+    printf "\t\tthe MangaSee website for the titles used.\n"
     printf "\"Chapter Number\": The number of the chapter you wish to download.\n"
     printf "\"Page Count\": The number of pages you wish to downoad.\n"
     printf "\"-d\": The external directory switch. You must use this switch if you wish to download to directory\n"
-    printf "\tother than where you are executing the script from.\n"
+    printf "      other than where you are executing the script from.\n"
     printf "\"External Directory\": The path to the directory you wish to download to. If you do not use the switch,\n"
-    printf "\tall files are downloaded to the directory you are executing the script from.\n"
+    printf "\t\t      all files are downloaded to the directory you are executing the script from.\n"
 }
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 # $1 = Length of Chapter Number
@@ -56,7 +56,7 @@ _gen_base_url() {
         echo "$_scan_complete$1/$2$3"
         return 0
     else
-        echo "Something went wrong! Please execute the shell on the own to see the help." 1>&2
+        echo "Something went wrong! Please execute the script on the own to see the help." 1>&2
         printf "Possible Errors: - The series name isn't written in romanized Japanese\n" 1>&2
         printf "\t\t - The chapter number is not a number\n" 1>&2
         printf "\t\t - The page count is not a number\n" 1>&2
