@@ -8,9 +8,9 @@ _print_help() {
     printf "\"Chapter Number\": The number of the chapter you wish to download.\n"
     printf "\"Page Count\": The number of pages you wish to downoad.\n"
     printf "\"-d\": The external directory switch. You must use this switch if you wish to download to directory\n"
-    printf "      other than where you are executing the script from.\n"
+    printf "\tother than where you are executing the script from.\n"
     printf "\"External Directory\": The path to the directory you wish to download to. If you do not use the switch,\n"
-    printf "\t\t      all files are downloaded to the directory you are executing the script from.\n"
+    printf "\t\t\tall files are downloaded to the directory you are executing the script from.\n"
 }
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 # $1 = Length of Chapter Number
