@@ -67,11 +67,13 @@ _gen_base_url() {
 # $1 = Switch
 # $2 = Path to External Directory
 _create_external_dir() {
+    # Check if an external directory switch is present
     if [[ "$1" != "-d" ]]; then
         echo "If you wish to download to an external directory, please pass the proper switch, \"-d\"! Please see help for further details." 1>&2
         return 1;
     fi
 
+    # Check if path to an external directory is passed
     if [[ "$2" == "" ]]; then
         echo "No external directory path has been passed! Please see help for further details." 1>&2
         return 1
