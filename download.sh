@@ -2,18 +2,21 @@
 _print_help() {
     printf "Usage: <Script Filename> <Series Title> <Chapter Number> <Page Count> [-d] <External Directory>\n"
     printf "\t<Script Filename> <Series Title> <Chapter Number> [-t]"
-    printf "\n"
+    printf "\n\n"
+    printf "Main Arguments:\n"
     printf "\"Series Title\": The title of the series you wish to download. Must be in romanized form. This does not\n"
     printf "\tmean Romaji, as characters that refelect long tones are often dropped. Please see the MangaSee\n"
     printf "\twebsite for the titles used.\n"
     printf "\"Chapter Number\": The number of the chapter you wish to download.\n"
-    printf "\"Page Count\": The number of pages you wish to downoad.\n"
-    printf "\"-d\": The external directory switch. You must use this switch if you wish to download to a directory\n"
+    printf "\"Page Count\": The number of pages you wish to downoad.\n\n"
+    printf "Switches and Arguments Relating to Switches:\n"
+    printf "\"-d\": The \"external directory\" switch. You must use this switch if you wish to download to a directory\n"
     printf "\tother than where you are executing the script from.\n"
-    printf "\tOPTIONAL (requires an external directory to be passed as well)\n"
+    printf "\tNOTE: Requires an external directory to be passed as well.\n"
     printf "\"External Directory\": The path to the directory you wish to download to. If you do not use the switch,\n"
     printf "\tall files are downloaded to the directory you are executing the script from.\n"
-    printf "\tOPTIONAL (required if passing the \"-d\" switch)\n"
+    printf "\"-t\": The \"testing\" switch. If you pass this switch and only the first two main arguments, the script\n"
+    printf "\twill test to see if the passed chapter exists, and not download anything.\n"
 }
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 # $1 = Length of Chapter Number
