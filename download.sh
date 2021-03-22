@@ -1,16 +1,19 @@
 # Display help information
 _print_help() {
     printf "Usage: <Script Filename> <Series Title> <Chapter Number> <Page Count> [-d] <External Directory>\n"
+    printf "\t<Script Filename> <Series Title> <Chapter Number> [-t]"
     printf "\n"
     printf "\"Series Title\": The title of the series you wish to download. Must be in romanized form. This does not\n"
-    printf "\t\tmean Romaji, as characters that refelect long tones are often dropped. Please see\n"
-    printf "\t\tthe MangaSee website for the titles used.\n"
+    printf "\tmean Romaji, as characters that refelect long tones are often dropped. Please see the MangaSee\n"
+    printf "\twebsite for the titles used.\n"
     printf "\"Chapter Number\": The number of the chapter you wish to download.\n"
     printf "\"Page Count\": The number of pages you wish to downoad.\n"
-    printf "\"-d\": The external directory switch. You must use this switch if you wish to download to directory\n"
+    printf "\"-d\": The external directory switch. You must use this switch if you wish to download to a directory\n"
     printf "\tother than where you are executing the script from.\n"
+    printf "\tOPTIONAL (requires an external directory to be passed as well)\n"
     printf "\"External Directory\": The path to the directory you wish to download to. If you do not use the switch,\n"
-    printf "\t\t\tall files are downloaded to the directory you are executing the script from.\n"
+    printf "\tall files are downloaded to the directory you are executing the script from.\n"
+    printf "\tOPTIONAL (required if passing the \"-d\" switch)\n"
 }
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 # $1 = Length of Chapter Number
