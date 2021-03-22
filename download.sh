@@ -56,10 +56,11 @@ _gen_base_url() {
         echo "$_scan_complete$1/$2$3"
         return 0
     else
-        echo "Something went wrong! Please execute the script on the own to see the help." 1>&2
-        printf "Possible Errors: - The series name isn't written in romanized Japanese\n" 1>&2
-        printf "\t\t - The chapter number is not a number\n" 1>&2
-        printf "\t\t - The page count is not a number\n" 1>&2
+        echo "That chapter doesn't exist! Check to make sure you have:" 1>&2
+        printf "\t - Written the series name in romanized Japanese\n" 1>&2
+        printf "\t - Passed a number for the chapter number\n" 1>&2
+        printf "\t - Passed a number for the page count\n" 1>&2
+        echo "Please execute the script on its own to see the help if you would like further details." 1>&2
         return 1
     fi
 }
@@ -67,15 +68,23 @@ _gen_base_url() {
 # $1 = Switch
 # $2 = Path to External Directory
 _create_external_dir() {
-    # Check if an external directory switch is present
+    # Check if a 4th argument was not passed
+    if [[ "$1" == "" ]]; then
+        # If not, just exit the method
+        return 0;
+    fi
+
+    # Check if the 4th argument is the external directory switch
     if [[ "$1" != "-d" ]]; then
-        echo "If you wish to download to an external directory, please pass the proper switch, \"-d\"! Please see help for further details." 1>&2
+        echo "If you wish to download to an external directory, please pass the proper switch, \"-d\"!" 1>&2
+        echo "Please execute the script on its own to see the help if you would like further details." 1>&2
         return 1;
     fi
 
     # Check if path to an external directory is passed
     if [[ "$2" == "" ]]; then
-        echo "No external directory path has been passed! Please see help for further details." 1>&2
+        echo "No external directory path has been passed!" 1>&2
+        echo "Please execute the script on its own to see the help if you would like further details." 1>&2
         return 1
     fi
 
@@ -105,8 +114,8 @@ _calc_filename_zeroes() {
 ###
 # $1 = Series Name
 # $2 = Chapter Number
-# $3 = Number of Pages
-# $4 = "-d"; Download to External Directory Switch
+# $3 = Page Count; "-t", Switch for testing if the specified series and chapter exists
+# $4 = "-d", Switch for downloading to external directory
 # $5 = Path to download (optional; if not passed, will download to current directory)
 
 # Exit if any functions returns a non-zero value
@@ -121,7 +130,7 @@ elif (($# < 3 && $# != 0)); then
     echo "Please execute the script with no arguments for help."
     exit 1
 elif (($# > 5)); then
-    echo "You only need at least 3 arguments! 5 are are required for optional functionality."
+    echo "You only need at least 3 arguments! 5 are required for optional functionality."
     echo "Please execute the script with no arguments for help."
     exit 1
 fi
@@ -133,6 +142,22 @@ _chapter_num_len=$(expr length "$2")
 
 # Determine the correct number of zeroes to prefix the chapter number (ex. "66" means "00" in order to have "0066")
 _chapter_num_zeroes=$(_calc_chapter_num_zeroes $_chapter_num_len)
+
+isNumberRegex="^[0-9]+$"
+# Check if a "test" flag is passed
+if [[ "$3" == "-t" ]]; then
+    # Check if the passed chapter exists
+    # Example URL: "https://scans-ongoing-1.lastation.us/manga/Grand-Blue/0066-001.png"
+    _base_url=$(_gen_base_url $_series_name_kebab $_chapter_num_zeroes $2)
+    # If the code reachest this point, the above method did not error out, so exist successfully
+    echo "That chapter exists!"
+    exit 0
+# if not and the 3rd argument is not a number
+elif ! [[ $3 =~ $isNumberRegex ]]; then
+    echo "If you are not passing a number as the third argument, it needs to be \"-t\", as that means you are testing to see if a chapter exists, and not downloading" 1>&2
+    echo "Please execute the script on its own to see the help if you would like further details." 1>&2
+    exit 1
+fi
 
 # Test each server using the passed chapter and the first page
 # Example URL: "https://scans-ongoing-1.lastation.us/manga/Grand-Blue/0066-001.png"
