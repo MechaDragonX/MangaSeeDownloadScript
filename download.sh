@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Display help information
 _print_help() {
     printf "Usage: <Script Filename> <Series Title> <Chapter Number> <Page Count> [-d] <External Directory>\n"
